@@ -13,10 +13,27 @@
 # so [1, 2, 2, 3] returns [1, 2, 3]. You may create a new list or
 # modify the passed in list.
 
+# Pseudo-code
+# ---------------------------------------------------------------
+# first create an empty list to modify while inside the for loop
+# then check if the number that you're currently iterating over
+# is present inside of the solution array.
+# if the number is present in the solution array, do not add it
+# to the solution array, else add it to the solution array.
+# ---------------------------------------------------------------
+
 
 
 def remove_adjacent(nums):
-  return None
+    solution = []
+
+    if nums:
+        for num in nums:
+            if solution.count(num) == 0:
+                solution.append(num)
+        return solution   
+    else:
+        return solution
 
 
 
@@ -25,11 +42,29 @@ def remove_adjacent(nums):
 # Ideally, the solution should work in "linear" time, making a single
 # pass of both lists.
 
+# Pseudo-code
+# ---------------------------------------------------------------
+# First create an empty list that will hold the solution for the
+# problem. Copy the first list into this list.
 
+# Then iterate over the second list and find the index of the 
+# element that is less than this value inside of the solution list.
+
+# When you have found this index, place the number that you are 
+# iterating over currently into the next index position.
+
+# The current solution doesn't go into depth of iterating through 
+# both of the arrays and then merging them as it iterates through.
+# Instead it makes use of the sorted function, which is a sort of
+# shortcut to what this problem is asking for in my belief.
+
+# ---------------------------------------------------------------
 
 def linear_merge(list1, list2):
-  return None
+    solution = list1[0:] + list2[0:]
 
+    return sorted(solution)
+        
 
 
 # Note: the solution above is kind of cute, but unforunately list.pop(0)
