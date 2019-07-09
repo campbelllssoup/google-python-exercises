@@ -3,6 +3,8 @@
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
+# COMPLETED !!!
+
 # Google's Python Class
 # http://code.google.com/edu/languages/google-python-class/
 
@@ -39,13 +41,59 @@ print_words() and print_top().
 
 import sys
 
-# +++your code here+++
+# OBJECTIVE
+
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-###
+def sort_count(tuple):
+    return tuple[-1]
+
+def sort_alpha(tuple):
+    return tuple[0]
+
+def utility(filename):
+    file = open(filename, 'rU')
+    word_count = {}
+
+    for line in file:
+        word_arr = line.split()
+        words = []
+
+        for w in word_arr:
+            if w not in words:
+                words.append(w.lower())
+
+        for word in words:
+            if word not in word_count.keys():
+                word_count[word] = word_arr.count(word) + 1
+            else:
+                word_count[word] += word_arr.count(word)
+ 
+    word_tuples = word_count.items() 
+
+    file.close()
+    
+    return word_tuples
+
+def print_words(filename):
+
+    alphabetical = sorted(utility(filename), key=sort_alpha)
+
+    for word in alphabetical:
+        print word[0], word[1]
+    
+
+def print_top(filename):
+    occurences = sorted(utility(filename), key=sort_count, reverse=True)
+    top_twenty = occurences[:20]
+
+    for word in top_twenty:
+        print word[0], word[1]
+
+
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
