@@ -15,8 +15,38 @@ import commands
 """Copy Special exercise
 """
 
-# +++your code here+++
-# Write functions and modify main() to call them
+
+def get_special_paths(dir):
+    all_files = os.listdir(dir)
+    file_names = []
+    absolute_paths = []
+ 
+    for filename in all_files:
+        if re.search('__\w+__',filename):
+            file_names.append(filename)
+
+    for file in file_names:
+        path = os.path.join(dir,file)    
+        absolute_paths.append(os.path.abspath(path))
+    
+    return absolute_paths
+
+
+
+def copy_to(paths,dir):
+    print "Copying Files.."
+    for path in paths:
+        shutil.copy(path,dir)
+    print "Copying complete."
+    
+
+
+
+def zip_to(paths,zippath):
+    cmd = 'zip -j ' + zippath + ' ' + ' '.join(paths)
+    print "Zipping files.."
+    (status, output) = commands.getstatusoutput(cmd)
+    
 
 
 
@@ -28,7 +58,7 @@ def main():
   # which is the script itself.
   args = sys.argv[1:]
   if not args:
-    print "usage: [--todir dir][--tozip zipfile] dir [dir ...]";
+    print "usage: [--todir copy_dir files ...][--tozip zipfile files ...] dir [dir ...]";
     sys.exit(1)
 
   # todir and tozip are either set from command line
@@ -38,18 +68,25 @@ def main():
   if args[0] == '--todir':
     todir = args[1]
     del args[0:2]
+    copy_to(args,todir)
+    sys.exit(0)
+
 
   tozip = ''
   if args[0] == '--tozip':
     tozip = args[1]
     del args[0:2]
+    zip_to(args,tozip)
+    sys.exit(0)
+
+  for dir in args:
+      for abs_path in get_special_paths(dir):
+          print abs_path
 
   if len(args) == 0:
     print "error: must specify one or more dirs"
     sys.exit(1)
 
-  # +++your code here+++
-  # Call your functions
-  
+
 if __name__ == "__main__":
   main()
